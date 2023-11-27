@@ -8,6 +8,7 @@ import struct
 
 UART_TX_PIN = 0
 UART_RX_PIN = 1
+UART_ID = 0
 BAUD_RATE = 9600  # according to manual
 DATA_BIT = 8  # 8 bytes according to manual
 STOP_BIT = 1  # 1 byte according to manual
@@ -28,8 +29,8 @@ class MH_Z19:
     """
     RETRY_COUNT = 5
 
-    def __init__(self, tx_pin: Pin, rx_pin: Pin):
-        self.sensor = UART(0, baudrate=BAUD_RATE, tx=tx_pin, rx=rx_pin,
+    def __init__(self, tx_pin: Pin, rx_pin: Pin, uart_id=0):
+        self.sensor = UART(uart_id, baudrate=BAUD_RATE, tx=tx_pin, rx=rx_pin,
                            bits=DATA_BIT, parity=PARITY_BIT, stop=STOP_BIT)
 
     def read_co2(self):
@@ -123,5 +124,5 @@ class MH_Z19:
 
 
 if __name__ == "__main__":
-    sensor = MH_Z19(Pin(UART_TX_PIN), Pin(UART_RX_PIN))
+    sensor = MH_Z19(Pin(UART_TX_PIN), Pin(UART_RX_PIN), UART_ID)
     print(sensor.read_co2())
